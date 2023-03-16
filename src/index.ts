@@ -12,14 +12,16 @@ if ( BOT_TOKEN === undefined ) {
 const bot: Telegraf<Context<Update>> =  new Telegraf(BOT_TOKEN);
 
 
-bot.start(
-    (ctx) => ctx.reply("Hello User")
-);
+bot.on('message',
+  async (ctx) => {
+    await ctx.sendChatAction("typing")
+   }
+)
+
+
 
 bot.launch();
 
 // Graceful stop
 process.once('SIGINT',() => bot.stop('SIGINT'));
 process.once('SIGTERM',() => bot.stop('SIGTERM'));
-
-
