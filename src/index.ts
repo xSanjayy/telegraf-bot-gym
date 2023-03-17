@@ -11,17 +11,26 @@ if ( BOT_TOKEN === undefined ) {
 
 const bot: Telegraf<Context<Update>> =  new Telegraf(BOT_TOKEN);
 
-
-bot.on('message',
-  async (ctx) => {
-    await ctx.sendChatAction("typing")
-   }
+bot.telegram.setMyCommands(
+  [
+    {command: "cmd1",description:"placeholder"},
+    {command: "cmd2",description:"placeholder"},
+    {command: "cmd3",description:"placeholder"},
+    {command: "cmd4",description:"placeholder"},
+    {command: "cmd5",description:"placeholder"},
+  ]
 )
 
-
+bot.start(
+  async (ctx) => {
+    await ctx.reply(
+      `Hello, ${ctx.message.from.first_name} ${ctx.message.from.last_name}`
+    ); 
+  }
+)
 
 bot.launch();
 
-// Graceful stop
+// stop gracefully
 process.once('SIGINT',() => bot.stop('SIGINT'));
 process.once('SIGTERM',() => bot.stop('SIGTERM'));
