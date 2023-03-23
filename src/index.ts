@@ -39,7 +39,9 @@ Let's get started!`;
   }
 );
 
-bot.command("help",
+
+bot.command(
+  "help",
   async (ctx) => {
     const helpMessage = `here is the list of the commands that help you to get started.\n
 /currency [currency_code] - Get the current exchange rate for a given currency code. Example usage: /currency USD\n
@@ -51,7 +53,7 @@ bot.command("help",
     );
   }
 );
-
+const currencies = ['AUD', 'BGN', 'BRL', 'CAD', 'CHF', 'CNY', 'CZK', 'DKK', 'EUR', 'GBP', 'HKD', 'HUF', 'IDR', 'ILS', 'INR', 'ISK', 'JPY', 'KRW', 'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PLN', 'RON', 'SEK', 'SGD', 'THB', 'TRY', 'USD', 'ZAR']
 
 bot.launch();
 
