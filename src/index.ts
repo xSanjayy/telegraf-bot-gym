@@ -1,6 +1,7 @@
-import { Telegraf, Context } from "telegraf";
+import { Telegraf, Context, Markup } from "telegraf";
 import { Update } from "telegraf/typings/core/types/typegram";
 import * as dotenv from "dotenv";
+
 
 dotenv.config();
 const BOT_TOKEN: string = process.env.BOT_API_TOKEN as string;
@@ -42,7 +43,7 @@ Let's get started!`;
 
 bot.command(
   "help",
-  async (ctx) => {
+  async (ctx: Context) => {
     const helpMessage = `here is the list of the commands that help you to get started.\n
 /currency [currency_code] - Get the current exchange rate for a given currency code. Example usage: /currency USD\n
 /convert [amount] [from_currency] [to_currency] - Convert a given amount from one currency to another. Example usage: /convert 100 USD EUR\n
@@ -54,6 +55,31 @@ bot.command(
   }
 );
 const currencies = ['AUD', 'BGN', 'BRL', 'CAD', 'CHF', 'CNY', 'CZK', 'DKK', 'EUR', 'GBP', 'HKD', 'HUF', 'IDR', 'ILS', 'INR', 'ISK', 'JPY', 'KRW', 'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PLN', 'RON', 'SEK', 'SGD', 'THB', 'TRY', 'USD', 'ZAR']
+
+bot.command(
+  "list", 
+  async (ctx: Context) => {
+    const buttons = currencies.map(currency => Markup.button.callback(currency,`select_currency:${currency}`));
+    return await ctx.reply("Here are the list of currencies",
+      Markup.inlineKeyboard(
+        buttons,
+        {columns: 4}
+      )
+    );
+  }
+)
+
+bot.action(
+  /^select_currency:(\w+)$/,
+  async (ctx) => {
+    const selectedCurrency = ctx.match[1];
+
+    ctx.reply(`you are selected ${selectedCurrency}`);
+
+    ctx.editMessageReplyMarkup({inline_keyboard: []});
+  }
+)
+
 
 bot.launch();
 
